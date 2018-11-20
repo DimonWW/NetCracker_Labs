@@ -6,27 +6,16 @@ import java.util.Random;
 
 
 public class Fillers {
-    private static int N = 20;
+    private static int N = 20; // Ввод количества элементов в массиве. Можно переделать под консольный ввод
     public static int[] genArr = new int[N];
     private static int[] array = new int[N];
     private static int[] arrayReserve = new int[N];
     private static int[] arrayBig = new int[N + 1];
-
     private static Random random = new Random();
 
-    //Массив из рандомных элементов в диапазоне 0-100 в рандомном порядке
-    public static int[] GeneretedArray(){
-        for (int i = 0; i < N; i++) {
-            genArr[i] =  (random.nextInt(100));
-        }
-        return genArr;
-    }
-
-    public static int getN() {
-        return N;
-    }
-
-    //отсортированный массив
+    /*
+     *Метод для создания массива с отсортироваными элементами
+     * */
     public static int[] genArraySort() {
 
         array = new int[N];
@@ -37,10 +26,10 @@ public class Fillers {
         return array;
     }
 
-
-    //отсортированный массив +1 рандомный элемент в конце
+    /*
+     *Метод для создания массива с отсортироваными элементами и одним рандомным элементом в конце
+     * */
     public static int[] genArraySortRand() {
-        Random random = new Random();
         for (int i = 0; i < N; i++) {
             arrayBig[i] = array[i];
         }
@@ -48,7 +37,9 @@ public class Fillers {
         return arrayBig;
     }
 
-
+    /*
+     *Метод для создания обратного массива
+     * */
     public static int[] genArraySortReverse() {
         int temp;
         for (int i = 0; i < N / 2; i++) {
@@ -60,17 +51,10 @@ public class Fillers {
         return array;
     }
 
-    public static int[] getReverse(){
-        for (int i = 0; i < N; i++) {
-            arrayReserve[i] = array[i];
-        }
-
-        return arrayReserve;
-    }
-
-
+    /*
+     *Метод для создания полностю рандомного массива
+     * */
     public static int[] genArrayRandom(){
-        Random random = new Random();
         for (int i = 0; i < N; i++) {
             int j = random.nextInt(i+1);
             int temp = array[i];

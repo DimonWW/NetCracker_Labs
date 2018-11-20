@@ -36,7 +36,7 @@ public class Outputs {
         System.out.print("Элементы в случайном порядке:  "/* + Arrays.toString(fillers.genArrayRandom()) + "\t\t"*/);
     }
 
-    public static void showResults() {
+    public static void showTimeResults() {
 
         System.out.println((analyzers.end - analyzers.start) + " nanosec");
 

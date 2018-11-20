@@ -9,6 +9,9 @@ import java.util.List;
 
 public class Sorts {
 
+    /*
+     *Метод сортировки пузырьком от начала к концу
+     * */
     public int[] BubbleSortDirect(int[] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array.length - 1; j++) {
@@ -22,6 +25,9 @@ public class Sorts {
         return array;
     }
 
+    /*
+     *Метод сортировки пузырьком от начала к концу
+     * */
     public int[] BubbleSortReverse(int[] array) {
         for (int i = array.length - 1; i >= 0; i--) {
             for (int j = array.length - 2; j >= 0; j--) {
@@ -35,6 +41,9 @@ public class Sorts {
         return array;
     }
 
+    /*
+     *Метод сортировки QuickSort
+     * */
     private static int[] QuickSortReal(int[] array, int low, int high) {
         int i = low;
         int j = high;
@@ -56,6 +65,9 @@ public class Sorts {
         return array;
     }
 
+    /*
+     *Метод сортировки с помощью Arrays.sort(int[] a).
+     * */
     public static int[] QuickSort(int[] array) {
         QuickSortReal(array, 0, array.length - 1);
         return array;
@@ -84,6 +96,9 @@ public class Sorts {
     }
 
 
+    /*
+    Сортировок с использованием метода половинного деления и предыдущих сортировок
+    */
     public int[] BubbleSortDirectMod(int[] arr) {
         int len = arr.length;
         if (len < 2) return arr;

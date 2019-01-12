@@ -1,13 +1,10 @@
-package fillers;
-
+package sorters;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Fillers {
-    String name();
-}
+@Target(value=ElementType.METHOD)
+@Retention(value= RetentionPolicy.RUNTIME)
+public @interface Sorter {}

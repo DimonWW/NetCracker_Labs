@@ -1,5 +1,9 @@
 package sorters;
 
+/**
+ * Class class which contains bubble sort algorithm
+ * @author Dima Korenko
+ */
 @SorterClass(name = "Bubble Sort Direct")
 public class BubbleSortDirect extends BubbleSort implements ArraySorter {
 

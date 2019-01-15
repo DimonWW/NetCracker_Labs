@@ -1,13 +1,18 @@
 package fillers;
 
-
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
-
+/**
+ * Class used to fill arrays
+ * @author Dima Korenko
+ */
 @FillersClass
 public abstract class ArrayFillers {
 
+    /**
+     * @param array is a array which will be reversed
+     */
     private static void reverse(int[] array) {
         int i = 0;
 
@@ -19,6 +24,12 @@ public abstract class ArrayFillers {
         }
     }
 
+    /**
+     * Method fills array just randomly
+     * @param arr array to fill
+     * @param min minimum random number
+     * @param max maximum random number
+     */
     @Fillers(name = "Simple filler")
     public static void simpleFiller(int[] arr, int min, int max) {
         for (int i = 0; i < arr.length; i++) {
@@ -26,6 +37,12 @@ public abstract class ArrayFillers {
         }
     }
 
+    /**
+     * Method fills array just randomly and then sort it from high to low
+     * @param arr array to fill
+     * @param min minimum random number
+     * @param max maximum random number
+     */
     @Fillers(name = "Reverse sorted filler")
     public static void reverseSortedFiller(int[] arr, int min, int max) {
         simpleFiller(arr, min, max);
@@ -33,12 +50,24 @@ public abstract class ArrayFillers {
         reverse(arr);
     }
 
+    /**
+     * Method fills array just randomly and then sort it from low to high
+     * @param arr array to fill
+     * @param min minimum random number
+     * @param max maximum random number
+     */
     @Fillers(name = "Sorted filler")
     public static void sortedFiller(int[] arr, int min, int max) {
         simpleFiller(arr, min, max);
         Arrays.sort(arr);
     }
 
+    /**
+     * Method fills array randomly and then sort it from low to high and then sets last random number
+     * @param arr array to fill
+     * @param min minimum random number
+     * @param max maximum random number
+     */
     @Fillers(name = "Sorted filler X")
     public static void sortedFillerX(int[] arr, int min, int max) {
         simpleFiller(arr, min, max);

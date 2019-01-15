@@ -1,5 +1,9 @@
 package output;
 
+/**
+ * Class used to holding result of analysing
+ * @author Dima Korenko
+ */
 public class ResultHolder {
     private int time;
     private String sorterName;
@@ -32,6 +36,10 @@ public class ResultHolder {
     public String format(ResultFormatter formatter) {
         return formatter.format(time, sorterName, fillerName);
     }
+
+    /**
+     * Functional interface for custom and pretty result formatting
+     */
     @FunctionalInterface
     public interface ResultFormatter {
         String format(int time, String sorterName, String fillerName);

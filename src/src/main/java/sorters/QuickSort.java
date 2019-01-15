@@ -1,5 +1,9 @@
 package sorters;
 
+/**
+ * Class class which contains quick sort algorithm
+ * @author Dima Korenko
+ */
 @SorterClass(name = "Quick sort")
 public class QuickSort
         extends BubbleSort
@@ -8,9 +12,13 @@ public class QuickSort
     @Sorter
     @Override
     public void sort(int[] array) {
-        qSort(array, 0, array.length - 1);
+        quickSort(array, 0, array.length - 1);
     }
-    private void qSort(int[] array, int start, int end) {
+
+    /**
+     * Quick sort algorithm
+     */
+    private void quickSort(int[] array, int start, int end) {
         if (array == null || array.length == 0)
             return;
         if (start >= end)
@@ -33,7 +41,7 @@ public class QuickSort
                     cur = i;
             }
         }
-        qSort(array, start, cur);
-        qSort(array,cur + 1, end);
+        quickSort(array, start, cur);
+        quickSort(array,cur + 1, end);
     }
 }

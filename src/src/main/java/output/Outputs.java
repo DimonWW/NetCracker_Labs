@@ -17,10 +17,6 @@ import java.util.List;
  */
 public class Outputs {
 
-    //public static final Comparator<ResultHolder> SORT_BY_TIME = Comparator.comparingInt(ResultHolder::getTime);
-    //public static final Comparator<ResultHolder> SORT_BY_FILLER_NAME = Comparator.comparing(ResultHolder::getFillerName);
-    //public static final Comparator<ResultHolder> SORT_BY_SORTER_NAME = Comparator.comparing(ResultHolder::getSorterName);
-
     private final List<ResultHolder> result;
     public Outputs(List<ResultHolder> data) {
         this.result = data;

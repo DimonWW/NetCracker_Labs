@@ -1,14 +1,7 @@
 package output;
 
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import sorters.ArraySorter;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -17,37 +10,28 @@ import java.util.List;
  */
 public class Outputs {
 
-    private final List<ResultHolder> result;
-    public Outputs(List<ResultHolder> data) {
-        this.result = data;
+    private final List<ResultTable> data;
+
+    public Outputs(List<ResultTable> data) {
+        this.data = data;
     }
 
     public void createExcel(String fileName) {
-        try {
-            XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFSheet spreadsheet = workbook.createSheet("results");
-            for (int i = 0; i < result.size(); i++) {
-                XSSFRow row = spreadsheet.createRow(i);
-                String[] resultArray = result.get(i).toArray();
-                for (int j = 0; j < resultArray.length; j++) {
-                    row.createCell(j).setCellValue(resultArray[j]);
-                }
-            }
-            FileOutputStream out = new FileOutputStream(new File(fileName));
-            workbook.write(out);
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Excel excel = new Excel();
+        for (ResultTable table : data) {
+            XSSFSheet sheet = excel.createSheet(table.getName());
+            TableBounds bounds = excel.createTable(sheet, table);
+            excel.createGraph(sheet, bounds);
         }
+        excel.save(fileName);
     }
 
     public void print() {
-        for (ResultHolder result : result) {
-            System.out.println(result);
+        for (ResultTable sheet : data) {
+            System.out.println("Table");
+            for (int i = 0; i < sheet.size(); i++) {
+                System.out.println(sheet.get(i));
+            }
         }
-    }
-
-    public void sort(Comparator<ResultHolder> sortBy) {
-        result.sort(sortBy);
     }
 }

@@ -2,11 +2,14 @@ package analyzer;
 
 import fillers.Fillers;
 import fillers.FillersClass;
-import output.ResultHolder;
+import output.ResultTable;
 import sorters.SortType;
 import sorters.SorterClass;
-import org.reflections.Reflections;
+import output.ResultRecord;
 import sorters.ArraySorter;
+
+import org.reflections.Reflections;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -20,7 +23,7 @@ import static java.lang.System.nanoTime;
  * @author Dima Korenko
  */
 public class Analyzers {
-    private static final String PATH = "lab1";
+    public static final int[] DEFAULT_ELEMENT_COUNT_FOR_TESTS = {10, 100, 500, 1000, 2000, 5000, 10000};
 
     /**
      * Field storing {@link Set} of methods marked as {@link Fillers}
@@ -73,28 +76,28 @@ public class Analyzers {
     }
 
     /**
-     * Method makes creating {@return List<ResultHolder>}
+     * Method makes creating {@return List<ResultTable>}
      */
-    public List<ResultHolder> analyze(int elementCount, boolean withColdStart, int numberOfTests) {
-        ArrayList result = new ArrayList<ResultHolder>();
-        int[] arr = new int[elementCount];
-        for (SortsClassHolder sorter : sorters) {
-            for (Method filler : fillers) {
-                if (!withColdStart) {
-                    prepareSorter(sorter, filler);
+    public List<ResultTable> analyze(int[] elementCounts, boolean withColdStart, int numberOfTests) {
+        ArrayList result = new ArrayList<ResultTable>();
+        for (Method filler : fillers) {
+            ResultTable sheet = new ResultTable();
+            for (int elementCount : elementCounts) {
+                int[] arr = new int[elementCount];
+                for (SortsClassHolder sorter : sorters) {
+                    if (!withColdStart) {
+                        prepareSorter(sorter, filler);
+                    }
+                    long testStart = nanoTime();
+                    for (int repeat = 0; repeat < numberOfTests; repeat++) {
+                        test(sorter, filler, arr);
+                    }
+                    sheet.add(new ResultRecord((int) ((nanoTime() - testStart) / numberOfTests), elementCount, sorter.getName(), filler.getAnnotation(Fillers.class).name()));
                 }
-                long testStart = nanoTime();
-                for (int repeat = 0; repeat < numberOfTests; repeat++) {
-                    test(sorter, filler, arr);
-                }
-                result.add(new ResultHolder((int) ((nanoTime() - testStart) / numberOfTests), sorter.getName(), filler.getAnnotation(Fillers.class).name()));
             }
+            result.add(sheet);
         }
         return result;
-    }
-
-    public List<ResultHolder> analyze(int elementCount) {
-        return analyze(elementCount, false, 10);
     }
 
     /**

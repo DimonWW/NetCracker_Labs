@@ -30,14 +30,59 @@ public class MergeSort implements ArraySorter {
      * @param array to sort
      */
     public void divide(int[] array) {
-        int m = array.length / 2;
-        int[] arr1 = new int[m];
-        int[] arr2 = new int[array.length - m];
-        System.arraycopy(array, 0, arr1, 0, arr1.length);
-        System.arraycopy(array, m, arr2, 0, arr2.length);
-        sorter.sort(arr1);
-        sorter.sort(arr2);
-        merge(array, arr1, arr2);
+        int availableProcessors = Runtime.getRuntime().availableProcessors();
+        int numberOfThreads = availableProcessors < 2 ? 2 : availableProcessors;
+        int[][] spittedArrays = splitArray(numberOfThreads, array);
+        sortInThreads(numberOfThreads, spittedArrays);
+        deepMerge(spittedArrays, array);
+    }
+
+    private void deepMerge(int[][] arrays, int[] resultArray) {
+        int[] temp;
+        int resultNumberOfArrays;
+        for (int arrayLen = arrays.length / 2; arrayLen > 1; arrayLen /= 2) {
+            resultNumberOfArrays = -1;
+            for (int i = 0; i < arrayLen + 1; i += 2) {
+                temp = new int[arrays[i].length + arrays[i + 1].length];
+                merge(temp, arrays[i], arrays[i + 1]);
+                arrays[i] = null;
+                arrays[i + 1] = null;
+                arrays[++resultNumberOfArrays] = temp;
+            }
+        }
+
+        merge(resultArray, arrays[0], arrays[1]);
+    }
+
+    private int[][] splitArray(int numberOfThreads, int[] array) {
+        final int[][] spittedArrays = new int[numberOfThreads][];
+
+        int len = array.length / numberOfThreads;
+        for (int i = 0; i < numberOfThreads; i++) {
+            spittedArrays[i] = new int[len];
+            if (i == numberOfThreads - 1 && array.length % numberOfThreads != 0) {
+                spittedArrays[i] = new int[array.length - len * i];
+            }
+            System.arraycopy(array, i * len, spittedArrays[i], 0, spittedArrays[i].length);
+        }
+        return spittedArrays;
+    }
+
+    private void sortInThreads(int numberOfThreads, int[][] spittedArrays) {
+        Thread[] threads = new Thread[numberOfThreads];
+        for (int i = 0; i < numberOfThreads; i++) {
+            int[] temp = spittedArrays[i];
+            threads[i] = new Thread(() -> sorter.sort(temp));
+            threads[i].start();
+        }
+        for (int i = 0; i < threads.length; i++) {
+            try {
+                threads[i].join();
+                threads[i] = null; // Help GC
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

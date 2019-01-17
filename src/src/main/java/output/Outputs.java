@@ -20,17 +20,17 @@ public class Outputs {
         Excel excel = new Excel();
         for (ResultTable table : data) {
             XSSFSheet sheet = excel.createSheet(table.getName());
-            TableBounds bounds = excel.createTable(sheet, table);
-            excel.createGraph(sheet, bounds);
+            TableBounds bounds = excel.createTable(sheet, table, 2, 2);
+            excel.createGraph(sheet, bounds, 10, 0, 35, 20);
         }
         excel.save(fileName);
     }
 
     public void print() {
-        for (ResultTable sheet : data) {
+        for (ResultTable table : data) {
             System.out.println("Table");
-            for (int i = 0; i < sheet.size(); i++) {
-                System.out.println(sheet.get(i));
+            for (int i = 0; i < table.size(); i++) {
+                System.out.println(table.get(i));
             }
         }
     }
